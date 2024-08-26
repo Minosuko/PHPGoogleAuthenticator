@@ -74,6 +74,15 @@ class GoogleAuthenticator
 		}
 		return false;
 	}
+	public function verifyCodeAtZone($secret, $code, $discrepancy = 1, $zone)
+	{
+		$date = new DateTime(null, new DateTimeZone($zone));	
+		$timeSlice = floor($date->getTimestamp() / 30);
+		$verify = $this->verifyCode($secret, $code, $discrepancy, $timeSlice);
+		if($verify)
+			return true;
+		return false;
+	}
 	public function setCodeLength($length)
 	{
 		$this->_codeLength = $length;
